@@ -177,7 +177,7 @@ function Page1() {
     };
 
     const handleOrientationChange = () => {
-      if (!window.matchMedia("(orientation: landscape)").matches) {
+      if (!window.matchMedia("(orientation: portrait)").matches) {
         alert("Please use landscape mode for better experience!");
       }
     };
