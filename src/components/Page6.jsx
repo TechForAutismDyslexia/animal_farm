@@ -249,7 +249,7 @@ function Page6() {
         style={{
           position: 'absolute',
           left: '30%',
-          top: '700%',
+          top: '400%',
           transform: 'translate(-50%, -50%)',
           cursor: 'pointer',
           width: '15%',
@@ -264,7 +264,7 @@ function Page6() {
         style={{
           position: 'absolute',
           left: '50%',
-          top: '600%',
+          top: '400%',
           transform: 'translate(-50%, -50%)',
           cursor: 'pointer',
           width: '15%',

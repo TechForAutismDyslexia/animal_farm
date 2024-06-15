@@ -198,7 +198,7 @@ function Page2() {
       document.removeEventListener('dragstart', preventScroll);
       window.removeEventListener('orientationchange', handleOrientationChange);
     };
-  }, );
+  }, []);
   
   
 
