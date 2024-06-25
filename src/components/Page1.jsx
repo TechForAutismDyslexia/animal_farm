@@ -116,7 +116,6 @@ function Page1() {
     checkSuccess();
   };
 
-  
   const checkSuccess = () => {
     if (dragItemRef.current) {
       const pig = document.getElementById('pig');
@@ -124,20 +123,15 @@ function Page1() {
       const pigRect = pig.getBoundingClientRect();
       const horseRect = horse.getBoundingClientRect();
   
-      
-      
+      // Horizontal overlap condition
+      const pigBesideHorse = pigRect.right >= horseRect.left && pigRect.left <= horseRect.right;
   
-      
-      const bottomAlignmentThreshold = 5; 
-  
-      
-      const pigCloseToHorse = pigRect.right >= horseRect.left && pigRect.left <= horseRect.right;
-  
-      
+      // Bottom alignment condition with a threshold of 10px
+      const bottomAlignmentThreshold = 30;
       const pigBottomAlignedWithHorse = Math.abs(pigRect.bottom - horseRect.bottom) <= bottomAlignmentThreshold;
   
-      
-      if (pigCloseToHorse && pigBottomAlignedWithHorse) {
+      // If both conditions are met, it's a success
+      if (pigBesideHorse && pigBottomAlignedWithHorse) {
         setSuccessAchieved(true);
         showSuccessMessage();
         throwConfetti();
@@ -149,7 +143,6 @@ function Page1() {
     }
   };
   
-
   const readOutLoud = (text) => {
     if ('speechSynthesis' in window) {
       if (window.speechSynthesis.speaking) {
@@ -224,7 +217,7 @@ function Page1() {
         alt="Horse"
         style={{
           position: 'absolute',
-          left: '90%',
+          left: '80%',
           top: '600%',
           transform: 'translate(-50%, -50%)',
           cursor: 'pointer',

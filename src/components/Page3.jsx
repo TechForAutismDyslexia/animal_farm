@@ -119,49 +119,59 @@ function Page3() {
     checkSuccess();
   };
 
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+  // const checkSuccess = () => {
+  //   if (dragItemRef.current) {
+  //     const cow = document.getElementById('cow');
+  //     const goat = document.getElementById('goat');
+  //     const cowRect = cow.getBoundingClientRect();
+  //     const goatRect = goat.getBoundingClientRect();
+  //     const distanceX = Math.abs(cowRect.left - goatRect.left);
+  //     const distanceY = Math.abs(cowRect.top - goatRect.top);
+  //     const xThreshold = 0.1 * window.innerWidth;
+  //     const yThreshold = 0.1 * window.innerHeight;
 
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
+  //     if (distanceX <= xThreshold && distanceY <= yThreshold) {
+  //       setSuccessAchieved(true);
+  //       showSuccessMessage();
+  //       throwConfetti();
+  //     } else {
+  //       setTrialCount(trialCount + 1);
+  //     }
+  //     dragItemRef.current = null;
+  //   }
+  // };
   const checkSuccess = () => {
     if (dragItemRef.current) {
       const cow = document.getElementById('cow');
       const goat = document.getElementById('goat');
       const cowRect = cow.getBoundingClientRect();
       const goatRect = goat.getBoundingClientRect();
-      const distanceX = Math.abs(cowRect.left - goatRect.left);
-      const distanceY = Math.abs(cowRect.top - goatRect.top);
+      
+      // Distance thresholds
       const xThreshold = 0.1 * window.innerWidth;
       const yThreshold = 0.1 * window.innerHeight;
-
-      if (distanceX <= xThreshold && distanceY <= yThreshold) {
+      
+      // Horizontal and vertical distances
+      const distanceX = Math.abs(cowRect.left - goatRect.left);
+      const distanceY = Math.abs(cowRect.top - goatRect.top);
+      
+      // Check if both distance thresholds are satisfied and overlap conditions
+      if (
+        distanceX <= xThreshold &&
+        distanceY <= yThreshold &&
+        (cowRect.bottom >= goatRect.top || cowRect.top <= goatRect.bottom)
+      ) {
         setSuccessAchieved(true);
         showSuccessMessage();
         throwConfetti();
       } else {
         setTrialCount(trialCount + 1);
       }
+      
       dragItemRef.current = null;
     }
   };
+  
 
   const readOutLoud = (text) => {
     if ('speechSynthesis' in window) {

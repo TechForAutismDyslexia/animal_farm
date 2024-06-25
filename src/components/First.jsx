@@ -1,8 +1,6 @@
-// First.jsx
 import React, { useState } from 'react';
 import Modal from './Modal';
 import './First.css';
-
 
 const First = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -16,14 +14,16 @@ const First = () => {
   };
 
   return (
-
-      <div className="First">
-        <h1>Barnyard Game</h1>
-        <button onClick={handleOpenModal}>Start Playing</button>
-        <Modal isOpen={modalOpen} onClose={handleCloseModal} />
-        
+    <div 
+      className="First" 
+      // style={{ backgroundImage: `url(${process.env.PUBLIC_URL}front.png)` }}
+    >
+      <div className="title-container">
+        <h1 className="title">Barnyard Game</h1>
       </div>
-  
+      <button onClick={handleOpenModal}>Start Playing</button>
+      <Modal isOpen={modalOpen} onClose={handleCloseModal} />
+    </div>
   );
 }
 
