@@ -4,7 +4,7 @@ import './style.css';
 import { TimerContext } from '../components/TimerContext';
 
 function Page24() {
-  const { startTimer, getElapsedTime } = useContext(TimerContext); 
+  const { getElapsedTime } = useContext(TimerContext); 
   const [successAchieved, setSuccessAchieved] = useState(false);
   const [messageVisible, setMessageVisible] = useState(false);
   const [trialCount, setTrialCount] = useState(0);
@@ -192,15 +192,13 @@ function Page24() {
     window.addEventListener('resize', handleResize);
     handleResize();
 
-    startTimer();
-
     return () => {
       window.removeEventListener('resize', handleResize);
       document.removeEventListener('touchmove', preventScroll);
       document.removeEventListener('dragstart', preventScroll);
       window.removeEventListener('orientationchange', handleOrientationChange);
     };
-  }, [startTimer]);
+  }, []);
 
   return (
     <div ref={pixiContainerRef} style={{ position: 'relative', width: '100%', height: '100%' }}>

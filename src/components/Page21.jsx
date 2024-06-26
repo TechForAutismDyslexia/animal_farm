@@ -3,7 +3,7 @@ import confetti from 'canvas-confetti';
 import './style.css';
 import { TimerContext } from '../components/TimerContext';
 
-function Page1() {
+function Page21() {
   const { startTimer, getElapsedTime } = useContext(TimerContext); 
   const [successAchieved, setSuccessAchieved] = useState(false);
   const [messageVisible, setMessageVisible] = useState(false);
@@ -116,22 +116,22 @@ function Page1() {
     checkSuccess();
   };
 
-  const checkSuccess = () => {
+const checkSuccess = () => {
     if (dragItemRef.current) {
-      const pig = document.getElementById('pig');
+      const cow = document.getElementById('cow');
       const horse = document.getElementById('horse');
-      const pigRect = pig.getBoundingClientRect();
+      const cowRect = cow.getBoundingClientRect();
       const horseRect = horse.getBoundingClientRect();
   
       // Horizontal overlap condition
-      const pigBesideHorse = pigRect.right >= horseRect.left && pigRect.left <= horseRect.right;
+      const cowBesideHorse = cowRect.right >= horseRect.left && cowRect.left <= horseRect.right;
   
       // Bottom alignment condition with a threshold of 10px
       const bottomAlignmentThreshold = 30;
-      const pigBottomAlignedWithHorse = Math.abs(pigRect.bottom - horseRect.bottom) <= bottomAlignmentThreshold;
+      const cowBottomAlignedWithHorse = Math.abs(cowRect.bottom - horseRect.bottom) <= bottomAlignmentThreshold;
   
       // If both conditions are met, it's a success
-      if (pigBesideHorse && pigBottomAlignedWithHorse) {
+      if (cowBesideHorse && cowBottomAlignedWithHorse) {
         setSuccessAchieved(true);
         showSuccessMessage();
         throwConfetti();
@@ -158,10 +158,10 @@ function Page1() {
 
   useEffect(() => {
     const handleResize = () => {
-      const pig = document.getElementById('pig');
+      const cow = document.getElementById('cow');
       const horse = document.getElementById('horse');
       const scale = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
-      pig.style.width = `${350 * scale}px`;
+      cow.style.width = `${420 * scale}px`;
       horse.style.width = `${500 * scale}px`;
     };
 
@@ -180,7 +180,7 @@ function Page1() {
     window.addEventListener('orientationchange', handleOrientationChange);
 
     
-    readOutLoud('The pig stood beside the horse.');
+    readOutLoud('The cow is standing beside the horse.');
 
     window.addEventListener('resize', handleResize);
     handleResize();
@@ -203,12 +203,12 @@ function Page1() {
           top: '15px',
           left: '15px',
         }}
-        onClick={() => readOutLoud("The pig stood beside the horse.")}
+        onClick={() => readOutLoud("The cow is standing beside the horse.")}
       >
         <img src="/images/sound.webp" alt="sound" width={'50px'} />
       </span>
       <p className="text">
-        The pig stood beside the horse.
+      The cow is standing beside the horse.
       </p>
       <img
         className="images"
@@ -228,8 +228,8 @@ function Page1() {
       />
       <img
         className="images"
-        id="pig"
-        src="/images/pig.webp"
+        id="cow"
+        src="/images/cow.webp"
         alt="Pig"
         style={{
           position: 'absolute',
@@ -239,8 +239,8 @@ function Page1() {
           cursor: 'pointer',
           width: '15%',
         }}
-        onMouseDown={(e) => onMouseDown(e, 'pig')}
-        onTouchStart={(e) => onTouchStart(e, 'pig')}
+        onMouseDown={(e) => onMouseDown(e, 'cow')}
+        onTouchStart={(e) => onTouchStart(e, 'cow')}
       />
      
       {messageVisible && (
@@ -290,4 +290,4 @@ function Page1() {
   );
 }
 
-export default Page1;
+export default Page21;

@@ -119,35 +119,34 @@ function Page26() {
     checkSuccess();
   };
 
-
   const checkSuccess = () => {
     if (dragItemRef.current) {
       const dog = document.getElementById('dog');
       const horse = document.getElementById('horse');
       const pig = document.getElementById('pig');
+  
+      if (!dog || !horse || !pig) {
+        console.error("One or more elements not found");
+        return;
+      }
+  
       const dogRect = dog.getBoundingClientRect();
       const horseRect = horse.getBoundingClientRect();
       const pigRect = pig.getBoundingClientRect();
   
-      // Condition to check if the dog is next to the pig
-      const dogNextToPig = dogRect.left >= pigRect.right - 30 && dogRect.left <= pigRect.right + 30;
+      // Condition to check if the dog and pig are both to the left of the horse
+      const dogAndPigLeftOfHorse = dogRect.right <= horseRect.left && pigRect.right <= horseRect.left;
   
-      // Condition to check if the dog is behind the horse
-      const dogBehindHorse = dogRect.left < horseRect.left;
+      // Condition to check the relative positions of dog and pig
+      const dogToRightOrLeftOfPig = (dogRect.left >= pigRect.right - 30 && dogRect.left <= pigRect.right + 30) ||
+                                    (dogRect.right >= pigRect.left - 30 && dogRect.right <= pigRect.left + 30);
   
-      // Condition to check if the bottom of the dog is less than the bottom of the horse
-      const dogBottomLessThanHorse = dogRect.bottom < horseRect.bottom;
-  
-      // Condition to check if the heights and widths of the dog and pig intersect
-      const dogPigIntersect = (
-        dogRect.right >= pigRect.left &&
-        dogRect.left <= pigRect.right &&
-        dogRect.bottom >= pigRect.top &&
-        dogRect.top <= pigRect.bottom
-      );
+      // Condition to check the bottom heights of dog and pig
+      const bottomHeightInRange = (Math.abs(dogRect.bottom - pigRect.bottom) <= 50) ||
+                                  (dogRect.right > pigRect.left && dogRect.left < pigRect.right && Math.abs(dogRect.bottom - pigRect.bottom) <= 100);
   
       // If all conditions are met, it's a success
-      if (dogNextToPig && dogBehindHorse && dogBottomLessThanHorse && dogPigIntersect) {
+      if ((dogAndPigLeftOfHorse &&  bottomHeightInRange) || (dogAndPigLeftOfHorse &&dogToRightOrLeftOfPig && bottomHeightInRange)) {
         setSuccessAchieved(true);
         showSuccessMessage();
         throwConfetti();
@@ -158,12 +157,8 @@ function Page26() {
       dragItemRef.current = null;
     }
   };
-  
-  
-  
-  
 
-  const readOutLoud = (text) => {
+const readOutLoud = (text) => {
     if ('speechSynthesis' in window) {
       if (window.speechSynthesis.speaking) {
         return; 
@@ -240,7 +235,7 @@ function Page26() {
         alt="Horse"
         style={{
           position: 'absolute',
-          left: '80%',
+          left: '20%',
           top: '500%',
           transform: 'translate(-50%, -50%)',
           cursor: 'pointer',
@@ -256,7 +251,7 @@ function Page26() {
         alt="pig"
         style={{
           position: 'absolute',
-          left: '45%',
+          left: '80%',
           top: '600%',
           transform: 'translate(-50%, -50%)',
           cursor: 'pointer',
@@ -271,7 +266,7 @@ function Page26() {
         alt="dog"
         style={{
           position: 'absolute',
-          left: '15%',
+          left: '50%',
           top: '700%',
           transform: 'translate(-50%, -50%)',
           cursor: 'pointer',

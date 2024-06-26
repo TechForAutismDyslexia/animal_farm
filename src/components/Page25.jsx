@@ -4,7 +4,7 @@ import './style.css';
 import { TimerContext } from '../components/TimerContext';
 
 function Page25() {
-  const { startTimer, getElapsedTime } = useContext(TimerContext); 
+  const { getElapsedTime } = useContext(TimerContext); 
   const [successAchieved, setSuccessAchieved] = useState(false);
   const [messageVisible, setMessageVisible] = useState(false);
   const [trialCount, setTrialCount] = useState(0);
@@ -118,20 +118,25 @@ function Page25() {
 
   const checkSuccess = () => {
     if (dragItemRef.current) {
-      const cow = document.getElementById('cow');
       const horse = document.getElementById('horse');
-      const cowRect = cow.getBoundingClientRect();
+      const cow = document.getElementById('cow');
+      const sheep = document.getElementById('sheep');
+  
       const horseRect = horse.getBoundingClientRect();
+      const cowRect = cow.getBoundingClientRect();
+      const sheepRect = sheep.getBoundingClientRect();
   
-      // Horizontal overlap condition
-      const cowBesideHorse = cowRect.right >= horseRect.left && cowRect.left <= horseRect.right;
+      // Conditions to check if cow and horse are to the right of sheep
+      const cowandhorseRightOfSheep = (cowRect.left >= sheepRect.right) && (horseRect.left >= sheepRect.right);
+      const horseLeftOfCow = horseRect.right <= cowRect.left;
   
-      // Bottom alignment condition with a threshold of 10px
-      const bottomAlignmentThreshold = 30;
-      const cowBottomAlignedWithHorse = Math.abs(cowRect.bottom - horseRect.bottom) <= bottomAlignmentThreshold;
-  
-      // If both conditions are met, it's a success
-      if (cowBesideHorse && cowBottomAlignedWithHorse) {
+      // Condition to check if the bottom heights of cow and horse are within 20px range and horse is to the right of cow
+      
+      
+      const horseAboveCow = horse.x <= (cow.x-20);
+
+      // If all conditions are met, it's a success
+      if ((cowandhorseRightOfSheep && !horseLeftOfCow &&!horseAboveCow)) {
         setSuccessAchieved(true);
         showSuccessMessage();
         throwConfetti();
@@ -142,6 +147,8 @@ function Page25() {
       dragItemRef.current = null;
     }
   };
+  
+  
   
   const readOutLoud = (text) => {
     if ('speechSynthesis' in window) {
@@ -164,6 +171,7 @@ function Page25() {
       const scale = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
       cow.style.width = `${400 * scale}px`;
       horse.style.width = `${550 * scale}px`;
+      sheep.style.width = `${300 * scale}px`;
       
     };
 
@@ -187,15 +195,13 @@ function Page25() {
     window.addEventListener('resize', handleResize);
     handleResize();
 
-    startTimer();
-
     return () => {
       window.removeEventListener('resize', handleResize);
       document.removeEventListener('touchmove', preventScroll);
       document.removeEventListener('dragstart', preventScroll);
       window.removeEventListener('orientationchange', handleOrientationChange);
     };
-  }, [startTimer]);
+  }, []);
 
   return (
     <div ref={pixiContainerRef} style={{ position: 'relative', width: '100%', height: '100%' }}>
@@ -219,7 +225,7 @@ function Page25() {
         alt="cow"
         style={{
           position: 'absolute',
-          left: '50%',
+          left: '80%',
           top: '400%',
           transform: 'translate(-50%, -50%)',
           cursor: 'pointer',
@@ -235,8 +241,8 @@ function Page25() {
         alt="Horse"
         style={{
           position: 'absolute',
-          left: '80%',
-          top: '400%',
+          left: '20%',
+          top: '300%',
           transform: 'translate(-50%, -50%)',
           cursor: 'pointer',
           width: '30% !important',
@@ -252,12 +258,14 @@ function Page25() {
         alt="sheep"
         style={{
           position: 'absolute',
-          left: '20%',
+          left: '50%',
           top: '400%',
           transform: 'translate(-50%, -50%)',
           cursor: 'pointer',
           width: '15%',
         }}
+        onMouseDown={(e) => onMouseDown(e, 'sheep')}
+        onTouchStart={(e) => onTouchStart(e, 'sheep')}
         
       />
       
