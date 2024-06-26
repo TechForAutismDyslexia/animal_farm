@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import './style.css';
-import { TimerContext } from '../components/TimerContext';
+// import { TimerContext } from '../components/TimerContext';
 
-function Page6() {
-  const {  getElapsedTime } = useContext(TimerContext); 
+function Page21() {
+//   const { startTimer, getElapsedTime } = useContext(TimerContext); 
   const [successAchieved, setSuccessAchieved] = useState(false);
   const [messageVisible, setMessageVisible] = useState(false);
   const [trialCount, setTrialCount] = useState(0);
@@ -14,10 +14,7 @@ function Page6() {
 
   const showSuccessMessage = () => {
     setMessageVisible(true);
-    
-    
-      showButtons();
-    
+    showButtons();
   };
 
   const showButtons = () => {
@@ -45,7 +42,7 @@ function Page6() {
 
     buttonContainer.appendChild(buttonPrev);
     buttonContainer.appendChild(buttonNext);
-    
+
     document.body.appendChild(buttonContainer);
   };
 
@@ -58,7 +55,7 @@ function Page6() {
   };
 
   const onButtonNextClick = () => {
-    window.location.href = '/page7';
+    window.location.href = '/page2';
   };
 
   const onButtonPrevClick = () => {
@@ -119,89 +116,22 @@ function Page6() {
     checkSuccess();
   };
 
-
-  // const checkSuccess = () => {
-  //   if (dragItemRef.current) {
-  //     const goose = document.getElementById('goose');
-  //     const horse = document.getElementById('horse');
-  //     const pig = document.getElementById('pig');
-      
-  //     const gooseRect = goose.getBoundingClientRect();
-  //     const horseRect = horse.getBoundingClientRect();
-  //     const pigRect = pig.getBoundingClientRect();
-  
-  //     // Calculate bottom positions
-  //     const gooseBottom = gooseRect.bottom;
-  //     const horseBottom = horseRect.bottom;
-  //     const pigBottom = pigRect.bottom;
-  
-  //     // Calculate horizontal positions
-  //     const gooseLeft = gooseRect.left;
-  //     const gooseRight = gooseRect.right;
-  //     const pigLeft = pigRect.left;
-  //     const pigRight = pigRect.right;
-  //     const horseLeft = horseRect.left;
-  //     const horseRight = horseRect.right;
-  
-  //     // Calculate thresholds for horizontal and vertical alignment
-  //     const xThreshold = gooseRect.width * 0.1;
-  //     const yThreshold = 100; // 20px range vertically
-  
-  //     // Check horizontal alignment and vertical proximity
-  //     if (
-  //       ((gooseLeft >= pigRight + xThreshold && gooseRight <= horseLeft - xThreshold) ||
-  //        (gooseLeft <= pigLeft - xThreshold && gooseRight >= horseRight + xThreshold)) &&
-  //       (Math.abs(gooseBottom - horseBottom) <= yThreshold &&
-  //        Math.abs(gooseBottom - pigBottom) <= yThreshold &&
-  //        Math.abs(pigBottom - horseBottom) <= yThreshold)
-  //     ) {
-  //       setSuccessAchieved(true);
-  //       showSuccessMessage();
-  //       throwConfetti();
-  //     } else {
-  //       setTrialCount(trialCount + 1);
-  //     }
-  
-  //     dragItemRef.current = null;
-  //   }
-  // };
-  
   const checkSuccess = () => {
     if (dragItemRef.current) {
-      const goose = document.getElementById('goose');
+      const cow = document.getElementById('cow');
       const horse = document.getElementById('horse');
-      const pig = document.getElementById('pig');
-      
-      const gooseRect = goose.getBoundingClientRect();
+      const cowRect = cow.getBoundingClientRect();
       const horseRect = horse.getBoundingClientRect();
-      const pigRect = pig.getBoundingClientRect();
   
-      // Calculate bottom positions
-      const gooseBottom = gooseRect.bottom;
-      const horseBottom = horseRect.bottom;
-      const pigBottom = pigRect.bottom;
+      // Horizontal overlap condition
+      const cowBesideHorse = cowRect.right >= horseRect.left && cowRect.left <= horseRect.right;
   
-      // Calculate horizontal positions
-      const gooseLeft = gooseRect.left;
-      const gooseRight = gooseRect.right;
-      const pigLeft = pigRect.left;
-      const pigRight = pigRect.right;
-      const horseLeft = horseRect.left;
-      const horseRight = horseRect.right;
+      // Bottom alignment condition with a threshold of 10px
+      const bottomAlignmentThreshold = 30;
+      const cowBottomAlignedWithHorse = Math.abs(cowRect.bottom - horseRect.bottom) <= bottomAlignmentThreshold;
   
-      // Calculate thresholds for horizontal and vertical alignment
-      const xThreshold = gooseRect.width * 0.2;
-      const yThreshold = 100; // 20px range vertically
-  
-      // Check horizontal alignment and vertical proximity
-      if (
-        ((gooseLeft >= pigRight + xThreshold && gooseRight <= horseLeft - xThreshold) ||
-         (gooseLeft <= pigLeft - xThreshold && gooseRight >= horseRight + xThreshold) ||
-         (gooseRight <= pigLeft - xThreshold && gooseLeft >= horseRight + xThreshold)) && // added condition for horse on the right and pig on the left
-        (Math.abs(gooseBottom - horseBottom) <= yThreshold &&
-         Math.abs(gooseBottom - pigBottom) <= yThreshold &&
-         Math.abs(pigBottom - horseBottom) <= yThreshold)
-      ) {
+      // If both conditions are met, it's a success
+      if (cowBesideHorse && cowBottomAlignedWithHorse) {
         setSuccessAchieved(true);
         showSuccessMessage();
         throwConfetti();
@@ -213,7 +143,6 @@ function Page6() {
     }
   };
   
-
   const readOutLoud = (text) => {
     if ('speechSynthesis' in window) {
       if (window.speechSynthesis.speaking) {
@@ -226,116 +155,100 @@ function Page6() {
       alert('Sorry, your browser does not support text to speech!');
     }
   };
+
   useEffect(() => {
     const handleResize = () => {
-      const goose = document.getElementById('goose');
+      const cow = document.getElementById('cow');
       const horse = document.getElementById('horse');
-      const pig = document.getElementById('pig');
       const scale = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
-      goose.style.width = `${200 * scale}px`;
-      horse.style.width = `${600 * scale}px`;
-      pig.style.width = `${500 * scale}px`;
+      cow.style.width = `${350 * scale}px`;
+      horse.style.width = `${500 * scale}px`;
     };
-  
+
     const preventScroll = (event) => {
       event.preventDefault();
     };
-  
+
     const handleOrientationChange = () => {
-      if (!window.matchMedia("(orientation: landscape)").matches) {
+      if (!window.matchMedia("(orientation: portrait)").matches) {
         alert("Please use landscape mode for better experience!");
       }
     };
-  
+
     document.addEventListener('touchmove', preventScroll, { passive: false });
     document.addEventListener('dragstart', preventScroll, { passive: false });
     window.addEventListener('orientationchange', handleOrientationChange);
+
     
-    
-  
-    readOutLoud('The goose stood between the pig and the horse.');
-  
+    readOutLoud('The cow is standing beside the horse.');
+
     window.addEventListener('resize', handleResize);
     handleResize();
-  
-   
+
+    startTimer();
+
     return () => {
       window.removeEventListener('resize', handleResize);
       document.removeEventListener('touchmove', preventScroll);
       document.removeEventListener('dragstart', preventScroll);
       window.removeEventListener('orientationchange', handleOrientationChange);
     };
-  }, []);
-  
-  
+  }, [startTimer]);
 
   return (
     <div ref={pixiContainerRef} style={{ position: 'relative', width: '100%', height: '100%' }}>
       <span
-     style={{
+        style={{
           position: 'fixed',
           top: '15px',
           left: '15px',
-     }} 
-     onClick={() => readOutLoud("The goose stood between the pig and the horse.")}>
-
-      <img src="/images/sound.webp" alt="sound" width={'50px'}/>
-     </span>
-      <p className='text'>
-        The goose stood between the pig and the horse.
+        }}
+        onClick={() => readOutLoud("The cow is standing beside the horse.")}
+      >
+        <img src="/images/sound.webp" alt="sound" width={'50px'} />
+      </span>
+      <p className="text">
+        The cow is standing beside the horse.
       </p>
-
       <img
+        className="images"
         id="horse"
         src="/images/horse2.webp"
         alt="Horse"
         style={{
           position: 'absolute',
-          left: '70%',
-          top: '400%',
+          left: '80%',
+          top: '600%',
           transform: 'translate(-50%, -50%)',
           cursor: 'pointer',
-          width: '15%',
+          width: '30% !important',
         }}
         onMouseDown={(e) => onMouseDown(e, 'horse')}
         onTouchStart={(e) => onTouchStart(e, 'horse')}
       />
       <img
-        id="goose"
-        src="/images/goose.webp"
-        alt="goose"
+        className="images"
+        id="cow"
+        src="/images/cow.webp"
+        alt="cow"
         style={{
           position: 'absolute',
-          left: '30%',
-          top: '400%',
+          left: '20%',
+          top: '600%',
           transform: 'translate(-50%, -50%)',
           cursor: 'pointer',
           width: '15%',
         }}
-        onMouseDown={(e) => onMouseDown(e, 'goose')}
-        onTouchStart={(e) => onTouchStart(e, 'goose')}
+        onMouseDown={(e) => onMouseDown(e, 'cow')}
+        onTouchStart={(e) => onTouchStart(e, 'cow')}
       />
-      <img
-        id="pig"
-        src="/images/pig.webp"
-        alt="pig"
-        style={{
-          position: 'absolute',
-          left: '50%',
-          top: '400%',
-          transform: 'translate(-50%, -50%)',
-          cursor: 'pointer',
-          width: '15%',
-        }}
-        onMouseDown={(e) => onMouseDown(e, 'pig')}
-        onTouchStart={(e) => onTouchStart(e, 'pig')}
-      />
+     
       {messageVisible && (
         <p
           style={{
             position: 'absolute',
             left: '50%',
-            top: '100%',
+            top: '50%',
             transform: 'translate(-50%, -50%)',
             fontSize: '2rem',
             fontWeight: 'bold',
@@ -350,18 +263,19 @@ function Page6() {
       <div className='trial'
         style={{
           position: 'fixed',
-    bottom: '0',
-    left: '0',
-    fontSize: '2rem',
-    fontWeight: 'bold',
-    color: '#000',
-    padding: '10px', 
-    zIndex: '999',
+          bottom: '0',
+          left: '0',
+          fontSize: '2rem',
+          fontWeight: 'bold',
+          color: '#000',
+          padding: '10px', 
+          zIndex: '999',
         }}
       >
         Trials: {trialCount}
       </div>
-      <div style={{
+      
+            <div style={{
                position: 'fixed', 
                top: 10, 
                right: 10, 
@@ -371,8 +285,346 @@ function Page6() {
                 }}>
                 Timer: {getElapsedTime()} s
             </div>
+      
     </div>
   );
 }
 
-export default Page6;
+export default Page21;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
