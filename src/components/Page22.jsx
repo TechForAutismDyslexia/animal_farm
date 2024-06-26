@@ -186,7 +186,7 @@ function Page22() {
     
     
   
-    readOutLoud('The dog sat in front of the cow.');
+    readOutLoud('The dog stopped in front of the cow.');
   
     window.addEventListener('resize', handleResize);
     handleResize();
