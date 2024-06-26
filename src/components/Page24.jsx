@@ -3,7 +3,7 @@ import confetti from 'canvas-confetti';
 import './style.css';
 import { TimerContext } from '../components/TimerContext';
 
-function Page1() {
+function Page24() {
   const { startTimer, getElapsedTime } = useContext(TimerContext); 
   const [successAchieved, setSuccessAchieved] = useState(false);
   const [messageVisible, setMessageVisible] = useState(false);
@@ -55,7 +55,7 @@ function Page1() {
   };
 
   const onButtonNextClick = () => {
-    window.location.href = '/page22';
+    window.location.href = '/page25';
   };
 
   const onButtonPrevClick = () => {
@@ -118,30 +118,35 @@ function Page1() {
 
   const checkSuccess = () => {
     if (dragItemRef.current) {
-      const pig = document.getElementById('pig');
+      const dog = document.getElementById('dog');
       const horse = document.getElementById('horse');
-      const pigRect = pig.getBoundingClientRect();
+      const cow = document.getElementById('cow');
+      const dogRect = dog.getBoundingClientRect();
       const horseRect = horse.getBoundingClientRect();
+      const cowRect = cow.getBoundingClientRect();
+      const dogLeft = dogRect.left;
+      const dogRight = dogRect.right;
+      const cowLeft = cowRect.left;
+      const cowRight = cowRect.right;
+      const horseLeft = horseRect.left;
+      const horseRight = horseRect.right;
+      const dogWidth = dogRect.width;
+      const xThreshold = dogWidth * 0.4; // Reduced the threshold to 30% of the dog's width
   
-      // Horizontal overlap condition
-      const pigBesideHorse = pigRect.right >= horseRect.left && pigRect.left <= horseRect.right;
-  
-      // Bottom alignment condition with a threshold of 10px
-      const bottomAlignmentThreshold = 30;
-      const pigBottomAlignedWithHorse = Math.abs(pigRect.bottom - horseRect.bottom) <= bottomAlignmentThreshold;
-  
-      // If both conditions are met, it's a success
-      if (pigBesideHorse && pigBottomAlignedWithHorse) {
+      if (
+        (dogLeft >= cowRight - xThreshold && dogRight <= horseLeft + xThreshold) ||
+        (dogLeft <= cowLeft + xThreshold && dogRight >= horseRight - xThreshold)
+      ) {
         setSuccessAchieved(true);
         showSuccessMessage();
         throwConfetti();
       } else {
         setTrialCount(trialCount + 1);
       }
-  
       dragItemRef.current = null;
     }
   };
+  
   
   const readOutLoud = (text) => {
     if ('speechSynthesis' in window) {
@@ -158,11 +163,13 @@ function Page1() {
 
   useEffect(() => {
     const handleResize = () => {
-      const pig = document.getElementById('pig');
+      const dog = document.getElementById('dog');
       const horse = document.getElementById('horse');
+      const cow = document.getElementById('cow');
       const scale = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
-      pig.style.width = `${350 * scale}px`;
+      dog.style.width = `${500 * scale}px`;
       horse.style.width = `${500 * scale}px`;
+      cow.style.width = `${450 * scale}px`
     };
 
     const preventScroll = (event) => {
@@ -180,7 +187,7 @@ function Page1() {
     window.addEventListener('orientationchange', handleOrientationChange);
 
     
-    readOutLoud('The pig stood beside the horse.');
+    readOutLoud('The dog is sleeping between the horse and the cow.');
 
     window.addEventListener('resize', handleResize);
     handleResize();
@@ -203,12 +210,12 @@ function Page1() {
           top: '15px',
           left: '15px',
         }}
-        onClick={() => readOutLoud("The pig stood beside the horse.")}
+        onClick={() => readOutLoud("The dog is sleeping between the horse and the cow.")}
       >
         <img src="/images/sound.webp" alt="sound" width={'50px'} />
       </span>
       <p className="text">
-        The pig stood beside the horse.
+      The dog is sleeping between the horse and the cow.
       </p>
       <img
         className="images"
@@ -228,19 +235,35 @@ function Page1() {
       />
       <img
         className="images"
-        id="pig"
-        src="/images/pig.webp"
-        alt="Pig"
+        id="dog"
+        src="/images/sleep_dog.webp"
+        alt="dog"
         style={{
           position: 'absolute',
           left: '20%',
+          top: '800%',
+          transform: 'translate(-50%, -50%)',
+          cursor: 'pointer',
+          width: '15%',
+        }}
+        onMouseDown={(e) => onMouseDown(e, 'dog')}
+        onTouchStart={(e) => onTouchStart(e, 'dog')}
+      />
+      <img
+        className="images"
+        id="cow"
+        src="/images/cow.webp"
+        alt="cow"
+        style={{
+          position: 'absolute',
+          left: '50%',
           top: '600%',
           transform: 'translate(-50%, -50%)',
           cursor: 'pointer',
           width: '15%',
         }}
-        onMouseDown={(e) => onMouseDown(e, 'pig')}
-        onTouchStart={(e) => onTouchStart(e, 'pig')}
+        onMouseDown={(e) => onMouseDown(e, 'cow')}
+        onTouchStart={(e) => onTouchStart(e, 'cow')}
       />
      
       {messageVisible && (
@@ -290,4 +313,4 @@ function Page1() {
   );
 }
 
-export default Page1;
+export default Page24;

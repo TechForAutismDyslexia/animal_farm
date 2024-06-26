@@ -33,11 +33,11 @@ const Last = () => {
   }, []);
 
   // Function to navigate to Page21
-  const goToPage21 = () => {
-    navigate('/Page21');
-  };
+//   const goToPage21 = () => {
+//     navigate('/Page21');
+//   };
   const goToPage1 = () => {
-    navigate('/Page1');
+    navigate('/Page21');
   };
   return (
     <div
@@ -52,7 +52,7 @@ const Last = () => {
         textAlign: 'center',
       }}
     >
-      <h1 style={{ fontSize: '2rem', color: '#000', marginTop: '20px' }}>Completed Level!</h1>
+      <h1 style={{ fontSize: '2rem', color: '#000', marginTop: '20px' }}>Completed Level 2!</h1>
       <div
         style={{
           display: 'flex',
@@ -86,20 +86,16 @@ const Last = () => {
       >
         Time Taken- {minutes}:{seconds} 
       </button>
-      <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
+     
       
       <button
         onClick={goToPage1}
       >
-        Replay
+        Replay Level
       </button>
-      <button
-        onClick={goToPage21}
-      >
-        Next Level 
-      </button>
+      
     </div>
-    </div>
+    
   );
 };
 

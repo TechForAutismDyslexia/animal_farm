@@ -1,19 +1,19 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Page22 = () => {
+const Page23 = () => {
   const navigate = useNavigate();
 
   const goToNextPage = () => {
-    navigate('/Page23');
+    navigate('/Page24');
   };
 
   return (
     <div>
-      <h1>Page 22</h1>
-      <button onClick={goToNextPage}>Go to Page 23</button>
+      <h1>Page 23</h1>
+      <button onClick={goToNextPage}>Go to Page 24</button>
     </div>
   );
 };
 
-export default Page22;
+export default Page23;

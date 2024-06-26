@@ -120,87 +120,26 @@ function Page6() {
   };
 
 
-  // const checkSuccess = () => {
-  //   if (dragItemRef.current) {
-  //     const goose = document.getElementById('goose');
-  //     const horse = document.getElementById('horse');
-  //     const pig = document.getElementById('pig');
-      
-  //     const gooseRect = goose.getBoundingClientRect();
-  //     const horseRect = horse.getBoundingClientRect();
-  //     const pigRect = pig.getBoundingClientRect();
-  
-  //     // Calculate bottom positions
-  //     const gooseBottom = gooseRect.bottom;
-  //     const horseBottom = horseRect.bottom;
-  //     const pigBottom = pigRect.bottom;
-  
-  //     // Calculate horizontal positions
-  //     const gooseLeft = gooseRect.left;
-  //     const gooseRight = gooseRect.right;
-  //     const pigLeft = pigRect.left;
-  //     const pigRight = pigRect.right;
-  //     const horseLeft = horseRect.left;
-  //     const horseRight = horseRect.right;
-  
-  //     // Calculate thresholds for horizontal and vertical alignment
-  //     const xThreshold = gooseRect.width * 0.1;
-  //     const yThreshold = 100; // 20px range vertically
-  
-  //     // Check horizontal alignment and vertical proximity
-  //     if (
-  //       ((gooseLeft >= pigRight + xThreshold && gooseRight <= horseLeft - xThreshold) ||
-  //        (gooseLeft <= pigLeft - xThreshold && gooseRight >= horseRight + xThreshold)) &&
-  //       (Math.abs(gooseBottom - horseBottom) <= yThreshold &&
-  //        Math.abs(gooseBottom - pigBottom) <= yThreshold &&
-  //        Math.abs(pigBottom - horseBottom) <= yThreshold)
-  //     ) {
-  //       setSuccessAchieved(true);
-  //       showSuccessMessage();
-  //       throwConfetti();
-  //     } else {
-  //       setTrialCount(trialCount + 1);
-  //     }
-  
-  //     dragItemRef.current = null;
-  //   }
-  // };
-  
   const checkSuccess = () => {
     if (dragItemRef.current) {
       const goose = document.getElementById('goose');
       const horse = document.getElementById('horse');
       const pig = document.getElementById('pig');
-      
       const gooseRect = goose.getBoundingClientRect();
       const horseRect = horse.getBoundingClientRect();
       const pigRect = pig.getBoundingClientRect();
-  
-      // Calculate bottom positions
-      const gooseBottom = gooseRect.bottom;
-      const horseBottom = horseRect.bottom;
-      const pigBottom = pigRect.bottom;
-  
-      // Calculate horizontal positions
       const gooseLeft = gooseRect.left;
       const gooseRight = gooseRect.right;
       const pigLeft = pigRect.left;
       const pigRight = pigRect.right;
       const horseLeft = horseRect.left;
       const horseRight = horseRect.right;
+      const gooseWidth = gooseRect.width;
+      const xThreshold = gooseWidth * 0.4; // Reduced the threshold to 30% of the goose's width
   
-      // Calculate thresholds for horizontal and vertical alignment
-      const xThreshold = gooseRect.width * 0.2;
-      const yThreshold = 100; // 20px range vertically
-  
-      // Check horizontal alignment and vertical proximity
       if (
-        ((gooseLeft >= pigRight + xThreshold && gooseRight <= horseLeft - xThreshold) ||
-         (gooseLeft <= pigLeft - xThreshold && gooseRight >= horseRight + xThreshold) ||
-         (gooseRight <= pigLeft - xThreshold && gooseLeft >= horseRight + xThreshold)) && // added condition for horse on the right and pig on the left
-        (Math.abs(gooseBottom - horseBottom) <= yThreshold &&
-         Math.abs(gooseBottom - pigBottom) <= yThreshold &&
-         Math.abs(pigBottom - horseBottom) <= yThreshold)
+        (gooseLeft >= pigRight - xThreshold && gooseRight <= horseLeft + xThreshold) ||
+        (gooseLeft <= pigLeft + xThreshold && gooseRight >= horseRight - xThreshold)
       ) {
         setSuccessAchieved(true);
         showSuccessMessage();
@@ -208,10 +147,11 @@ function Page6() {
       } else {
         setTrialCount(trialCount + 1);
       }
-  
       dragItemRef.current = null;
     }
   };
+  
+  
   
 
   const readOutLoud = (text) => {
