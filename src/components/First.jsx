@@ -19,7 +19,7 @@ const First = () => {
       // style={{ backgroundImage: `url(${process.env.PUBLIC_URL}front.png)` }}
     >
       <div className="title-container">
-        <h1 className="title">Barnyard Game</h1>
+        <h1 className="title">Animal Farm</h1>
       </div>
       <button onClick={handleOpenModal}>Start Playing</button>
       <Modal isOpen={modalOpen} onClose={handleCloseModal} />

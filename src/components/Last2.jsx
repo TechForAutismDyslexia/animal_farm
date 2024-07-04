@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useCallback} from 'react';
 import confetti from 'canvas-confetti';
 import { useNavigate } from 'react-router-dom';
 import { TimerContext } from '../components/TimerContext';
@@ -13,6 +13,47 @@ const Last = () => {
   const minutes = Math.floor(elapsedTime / 60);
   const seconds = elapsedTime % 60;
 
+  const gameId = "999";
+
+  const getTotalTrials = useCallback(() => {
+    let totalTrials = 0;
+    for (let i = 21; i <= 26; i++) {
+      totalTrials += parseInt(localStorage.getItem(`Page${i}TrialCount`) || '0');
+    }
+    return totalTrials;
+  }, []);
+  
+
+  const sendGameData = useCallback(async () => {
+    try {
+      const gameData = {
+        gameId,
+        tries: getTotalTrials(),
+        timer: elapsedTime,
+        status: true,
+      };
+
+      console.log('Sending game data:', gameData);
+
+      const response = await fetch('https://jwlgamesbackend.vercel.app/api/caretaker/sendgamedata', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(gameData),
+      });
+
+      if (response.ok) {
+        console.log('Game data saved successfully');
+      } else {
+        console.error('Failed to save game data', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }, [elapsedTime, getTotalTrials]);
+ 
+
   useEffect(() => {
     const throwConfetti = () => {
       confetti({
@@ -23,7 +64,9 @@ const Last = () => {
     };
 
     throwConfetti();
-  }, []);
+    sendGameData(); // Call sendGameData function
+
+  }, [sendGameData]);
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -33,13 +76,7 @@ const Last = () => {
     };
   }, []);
 
-  const getTotalTrials = () => {
-    let totalTrials = 0;
-    for (let i = 1; i <= 8; i++) {
-      totalTrials += parseInt(localStorage.getItem(`Page${i}TrialCount`) || '0');
-    }
-    return totalTrials;
-  };
+  
   // Function to navigate to Page21
 //   const goToPage21 = () => {
 //     navigate('/Page21');

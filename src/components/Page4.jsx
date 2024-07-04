@@ -258,10 +258,14 @@ function Page4() {
         Trials: {trialCount}
       </div>
       <div style={{
-               position: 'fixed', 
-               top: 10, 
-               right: 10, 
+               position: 'fixed',
+               top: '0',
+               right: '0',
                fontSize: '2rem',
+               fontWeight: 'bold',
+               color: '#000',
+               padding: '10px', 
+               zIndex: '999',
           
 
                 }}>
