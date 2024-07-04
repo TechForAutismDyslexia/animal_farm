@@ -2,6 +2,9 @@ import React, { useContext, useState, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import './style.css';
 import { TimerContext } from '../components/TimerContext';
+import dogImg from '../images/dog.webp';
+import cowImg from '../images/cow.webp';
+import soundImg from '../images/sound.webp';
 
 function Page22() {
   const { getElapsedTime } = useContext(TimerContext);
@@ -14,40 +17,9 @@ function Page22() {
 
   const showSuccessMessage = () => {
     setMessageVisible(true);
-    
-    
-      showButtons();
-    
+
   };
 
-  const showButtons = () => {
-    const buttonContainer = document.createElement('div');
-    buttonContainer.style.position = 'absolute';
-    buttonContainer.style.left = '50%';
-    buttonContainer.style.bottom = '10%';
-    buttonContainer.style.transform = 'translateX(-50%)';
-    buttonContainer.style.display = 'flex';
-    buttonContainer.style.gap = '20px';
-
-    const buttonPrev = document.createElement('button');
-    buttonPrev.innerText = 'Replay';
-    buttonPrev.style.cursor = 'pointer';
-    buttonPrev.style.padding = '10px 20px';
-    buttonPrev.style.fontSize = '1.5rem';
-    buttonPrev.addEventListener('click', onButtonPrevClick);
-
-    const buttonNext = document.createElement('button');
-    buttonNext.innerText = 'Next';
-    buttonNext.style.cursor = 'pointer';
-    buttonNext.style.padding = '10px 20px';
-    buttonNext.style.fontSize = '1.5rem';
-    buttonNext.addEventListener('click', onButtonNextClick);
-
-    buttonContainer.appendChild(buttonPrev);
-    buttonContainer.appendChild(buttonNext);
-    
-    document.body.appendChild(buttonContainer);
-  };
 
   const throwConfetti = () => {
     confetti({
@@ -55,14 +27,6 @@ function Page22() {
       spread: 70,
       origin: { y: 0.6 },
     });
-  };
-
-  const onButtonNextClick = () => {
-    window.location.href = '/page23';
-  };
-
-  const onButtonPrevClick = () => {
-    window.location.reload();
   };
 
   const onMouseDown = (event, id) => {
@@ -140,6 +104,10 @@ function Page22() {
         setSuccessAchieved(true);
         showSuccessMessage();
         throwConfetti();
+        localStorage.setItem('Page22TrialCount', trialCount.toString());
+        setTimeout(() => {
+          window.location.href = '/games/animal_farm/page23';
+        }, 2000);
       } else {
         setTrialCount(trialCount + 1);
       }
@@ -212,7 +180,7 @@ function Page22() {
      }} 
      onClick={() => readOutLoud("The dog stopped in front of the cow.")}>
 
-      <img src="/images/sound.webp" alt="sound" width={'50px'}/>
+      <img src={soundImg} alt="sound" width={'50px'}/>
      </span>
       <p className="text">
         The dog stopped in front of the cow.
@@ -220,7 +188,7 @@ function Page22() {
 
       <img
         id="cow"
-        src="/images/cow.webp"
+        src={cowImg}
         alt="cow"
         style={{
           position: 'absolute',
@@ -235,7 +203,7 @@ function Page22() {
       />
       <img
         id="dog"
-        src="/images/dog.webp"
+        src={dogImg}
         alt="dog"
         style={{
           position: 'absolute',

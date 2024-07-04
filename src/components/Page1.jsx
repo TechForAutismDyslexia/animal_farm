@@ -2,6 +2,9 @@ import React, { useContext, useState, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import './style.css';
 import { TimerContext } from '../components/TimerContext';
+import soundImg from '../images/sound.webp'; // Adjust the path according to your project structure
+import horseImg from '../images/horse2.webp';
+import pigImg from '../images/pig.webp';
 
 function Page1() {
   const { startTimer, getElapsedTime } = useContext(TimerContext); 
@@ -11,40 +14,41 @@ function Page1() {
   const pixiContainerRef = useRef(null);
   const dragItemRef = useRef(null);
   const offsetRef = useRef({ x: 0, y: 0 });
+  // const [trialCount, setTrialCount] = useState(parseInt(localStorage.getItem('Page1TrialCount') || '0'));
 
   const showSuccessMessage = () => {
     setMessageVisible(true);
-    showButtons();
+    // showButtons();
   };
 
-  const showButtons = () => {
-    const buttonContainer = document.createElement('div');
-    buttonContainer.style.position = 'absolute';
-    buttonContainer.style.left = '50%';
-    buttonContainer.style.bottom = '10%';
-    buttonContainer.style.transform = 'translateX(-50%)';
-    buttonContainer.style.display = 'flex';
-    buttonContainer.style.gap = '20px';
+  // const showButtons = () => {
+  //   const buttonContainer = document.createElement('div');
+  //   buttonContainer.style.position = 'absolute';
+  //   buttonContainer.style.left = '50%';
+  //   buttonContainer.style.bottom = '10%';
+  //   buttonContainer.style.transform = 'translateX(-50%)';
+  //   buttonContainer.style.display = 'flex';
+  //   buttonContainer.style.gap = '20px';
 
-    const buttonPrev = document.createElement('button');
-    buttonPrev.innerText = 'Replay';
-    buttonPrev.style.cursor = 'pointer';
-    buttonPrev.style.padding = '10px 20px';
-    buttonPrev.style.fontSize = '1.5rem';
-    buttonPrev.addEventListener('click', onButtonPrevClick);
+  //   const buttonPrev = document.createElement('button');
+  //   buttonPrev.innerText = 'Replay';
+  //   buttonPrev.style.cursor = 'pointer';
+  //   buttonPrev.style.padding = '10px 20px';
+  //   buttonPrev.style.fontSize = '1.5rem';
+  //   buttonPrev.addEventListener('click', onButtonPrevClick);
 
-    const buttonNext = document.createElement('button');
-    buttonNext.innerText = 'Next';
-    buttonNext.style.cursor = 'pointer';
-    buttonNext.style.padding = '10px 20px';
-    buttonNext.style.fontSize = '1.5rem';
-    buttonNext.addEventListener('click', onButtonNextClick);
+  //   const buttonNext = document.createElement('button');
+  //   buttonNext.innerText = 'Next';
+  //   buttonNext.style.cursor = 'pointer';
+  //   buttonNext.style.padding = '10px 20px';
+  //   buttonNext.style.fontSize = '1.5rem';
+  //   buttonNext.addEventListener('click', onButtonNextClick);
 
-    buttonContainer.appendChild(buttonPrev);
-    buttonContainer.appendChild(buttonNext);
+  //   buttonContainer.appendChild(buttonPrev);
+  //   buttonContainer.appendChild(buttonNext);
 
-    document.body.appendChild(buttonContainer);
-  };
+  //   document.body.appendChild(buttonContainer);
+  // };
 
   const throwConfetti = () => {
     confetti({
@@ -54,13 +58,13 @@ function Page1() {
     });
   };
 
-  const onButtonNextClick = () => {
-    window.location.href = '/page2';
-  };
+  // const onButtonNextClick = () => {
+  //   window.location.href = '/page2';
+  // };
 
-  const onButtonPrevClick = () => {
-    window.location.reload();
-  };
+  // const onButtonPrevClick = () => {
+  //   window.location.reload();
+  // };
 
   const onMouseDown = (event, id) => {
     if (successAchieved) return;
@@ -135,6 +139,10 @@ function Page1() {
         setSuccessAchieved(true);
         showSuccessMessage();
         throwConfetti();
+        localStorage.setItem('Page1TrialCount', trialCount.toString());
+        setTimeout(() => {
+          window.location.href = '/games/animal_farm/page2';
+        }, 2000);
       } else {
         setTrialCount(trialCount + 1);
       }
@@ -205,7 +213,7 @@ function Page1() {
         }}
         onClick={() => readOutLoud("The pig stood beside the horse.")}
       >
-        <img src="/images/sound.webp" alt="sound" width={'50px'} />
+        <img src={soundImg} alt="sound" width={'50px'} />
       </span>
       <p className="text">
         The pig stood beside the horse.
@@ -213,7 +221,7 @@ function Page1() {
       <img
         className="images"
         id="horse"
-        src="/images/horse2.webp"
+        src={horseImg}
         alt="Horse"
         style={{
           position: 'absolute',
@@ -229,7 +237,7 @@ function Page1() {
       <img
         className="images"
         id="pig"
-        src="/images/pig.webp"
+        src={pigImg}
         alt="Pig"
         style={{
           position: 'absolute',

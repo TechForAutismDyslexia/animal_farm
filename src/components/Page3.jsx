@@ -2,12 +2,17 @@ import React, { useContext, useState, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import './style.css';
 import { TimerContext } from '../components/TimerContext';
+import cowImg from '../images/cow.webp';
+import goatImg from '../images/goat.webp';
+import soundImg from '../images/sound.webp';
+
 
 function Page3() {
   const { getElapsedTime } = useContext(TimerContext); 
   const [successAchieved, setSuccessAchieved] = useState(false);
   const [messageVisible, setMessageVisible] = useState(false);
   const [trialCount, setTrialCount] = useState(0);
+
   const pixiContainerRef = useRef(null);
   const dragItemRef = useRef(null);
   const offsetRef = useRef({ x: 0, y: 0 });
@@ -15,39 +20,9 @@ function Page3() {
   const showSuccessMessage = () => {
     setMessageVisible(true);
     
-    
-      showButtons();
-    
   };
 
-  const showButtons = () => {
-    const buttonContainer = document.createElement('div');
-    buttonContainer.style.position = 'absolute';
-    buttonContainer.style.left = '50%';
-    buttonContainer.style.bottom = '10%';
-    buttonContainer.style.transform = 'translateX(-50%)';
-    buttonContainer.style.display = 'flex';
-    buttonContainer.style.gap = '20px';
 
-    const buttonPrev = document.createElement('button');
-    buttonPrev.innerText = 'Replay';
-    buttonPrev.style.cursor = 'pointer';
-    buttonPrev.style.padding = '10px 20px';
-    buttonPrev.style.fontSize = '1.5rem';
-    buttonPrev.addEventListener('click', onButtonPrevClick);
-
-    const buttonNext = document.createElement('button');
-    buttonNext.innerText = 'Next';
-    buttonNext.style.cursor = 'pointer';
-    buttonNext.style.padding = '10px 20px';
-    buttonNext.style.fontSize = '1.5rem';
-    buttonNext.addEventListener('click', onButtonNextClick);
-
-    buttonContainer.appendChild(buttonPrev);
-    buttonContainer.appendChild(buttonNext);
-    
-    document.body.appendChild(buttonContainer);
-  };
 
   const throwConfetti = () => {
     confetti({
@@ -57,13 +32,6 @@ function Page3() {
     });
   };
 
-  const onButtonNextClick = () => {
-    window.location.href = '/page4';
-  };
-
-  const onButtonPrevClick = () => {
-    window.location.reload();
-  };
 
   const onMouseDown = (event, id) => {
     if (successAchieved) return;
@@ -119,27 +87,6 @@ function Page3() {
     checkSuccess();
   };
 
-  // const checkSuccess = () => {
-  //   if (dragItemRef.current) {
-  //     const cow = document.getElementById('cow');
-  //     const goat = document.getElementById('goat');
-  //     const cowRect = cow.getBoundingClientRect();
-  //     const goatRect = goat.getBoundingClientRect();
-  //     const distanceX = Math.abs(cowRect.left - goatRect.left);
-  //     const distanceY = Math.abs(cowRect.top - goatRect.top);
-  //     const xThreshold = 0.1 * window.innerWidth;
-  //     const yThreshold = 0.1 * window.innerHeight;
-
-  //     if (distanceX <= xThreshold && distanceY <= yThreshold) {
-  //       setSuccessAchieved(true);
-  //       showSuccessMessage();
-  //       throwConfetti();
-  //     } else {
-  //       setTrialCount(trialCount + 1);
-  //     }
-  //     dragItemRef.current = null;
-  //   }
-  // };
   const checkSuccess = () => {
     if (dragItemRef.current) {
       const cow = document.getElementById('cow');
@@ -164,6 +111,10 @@ function Page3() {
         setSuccessAchieved(true);
         showSuccessMessage();
         throwConfetti();
+        localStorage.setItem('Page3TrialCount', trialCount.toString());
+        setTimeout(() => {
+          window.location.href = '/games/animal_farm/page4';
+        }, 2000);
       } else {
         setTrialCount(trialCount + 1);
       }
@@ -237,7 +188,7 @@ function Page3() {
      }} 
      onClick={() => readOutLoud("The cow stood behind the goat.")}>
 
-      <img src="/images/sound.webp" alt="sound" width={'50px'}/>
+      <img src={soundImg} alt="sound" width={'50px'}/>
      </span>
       <p className='text'>
         The cow stood behind the goat.
@@ -246,7 +197,7 @@ function Page3() {
       
       <img
         id="cow"
-        src="/images/cow.webp"
+        src={cowImg} 
         alt="cow"
         style={{
           position: 'absolute',
@@ -261,7 +212,7 @@ function Page3() {
       />
       <img
         id="goat"
-        src="/images/goat.webp"
+        src={goatImg}  
         alt="goat"
         style={{
           position: 'absolute',

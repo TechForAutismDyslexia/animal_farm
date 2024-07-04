@@ -2,6 +2,10 @@ import React, { useContext, useState, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import './style.css';
 import { TimerContext } from '../components/TimerContext';
+import cowImg from '../images/cow.webp';
+import dogImg from '../images/sleep_dog.webp';
+import horseImg from '../images/horse2.webp';
+import soundImg from '../images/sound.webp';
 
 function Page24() {
   const { getElapsedTime } = useContext(TimerContext); 
@@ -14,36 +18,6 @@ function Page24() {
 
   const showSuccessMessage = () => {
     setMessageVisible(true);
-    showButtons();
-  };
-
-  const showButtons = () => {
-    const buttonContainer = document.createElement('div');
-    buttonContainer.style.position = 'absolute';
-    buttonContainer.style.left = '50%';
-    buttonContainer.style.bottom = '10%';
-    buttonContainer.style.transform = 'translateX(-50%)';
-    buttonContainer.style.display = 'flex';
-    buttonContainer.style.gap = '20px';
-
-    const buttonPrev = document.createElement('button');
-    buttonPrev.innerText = 'Replay';
-    buttonPrev.style.cursor = 'pointer';
-    buttonPrev.style.padding = '10px 20px';
-    buttonPrev.style.fontSize = '1.5rem';
-    buttonPrev.addEventListener('click', onButtonPrevClick);
-
-    const buttonNext = document.createElement('button');
-    buttonNext.innerText = 'Next';
-    buttonNext.style.cursor = 'pointer';
-    buttonNext.style.padding = '10px 20px';
-    buttonNext.style.fontSize = '1.5rem';
-    buttonNext.addEventListener('click', onButtonNextClick);
-
-    buttonContainer.appendChild(buttonPrev);
-    buttonContainer.appendChild(buttonNext);
-
-    document.body.appendChild(buttonContainer);
   };
 
   const throwConfetti = () => {
@@ -54,13 +28,6 @@ function Page24() {
     });
   };
 
-  const onButtonNextClick = () => {
-    window.location.href = '/page25';
-  };
-
-  const onButtonPrevClick = () => {
-    window.location.reload();
-  };
 
   const onMouseDown = (event, id) => {
     if (successAchieved) return;
@@ -140,6 +107,10 @@ function Page24() {
         setSuccessAchieved(true);
         showSuccessMessage();
         throwConfetti();
+        localStorage.setItem('Page24TrialCount', trialCount.toString());
+        setTimeout(() => {
+          window.location.href = '/games/animal_farm/page25';
+        }, 2000);
       } else {
         setTrialCount(trialCount + 1);
       }
@@ -210,7 +181,7 @@ function Page24() {
         }}
         onClick={() => readOutLoud("The dog is sleeping between the horse and the cow.")}
       >
-        <img src="/images/sound.webp" alt="sound" width={'50px'} />
+        <img src={soundImg} alt="sound" width={'50px'} />
       </span>
       <p className="text">
       The dog is sleeping between the horse and the cow.
@@ -218,7 +189,7 @@ function Page24() {
       <img
         className="images"
         id="horse"
-        src="/images/horse2.webp"
+        src={horseImg}
         alt="Horse"
         style={{
           position: 'absolute',
@@ -234,7 +205,7 @@ function Page24() {
       <img
         className="images"
         id="dog"
-        src="/images/sleep_dog.webp"
+        src={dogImg}
         alt="dog"
         style={{
           position: 'absolute',
@@ -250,7 +221,7 @@ function Page24() {
       <img
         className="images"
         id="cow"
-        src="/images/cow.webp"
+        src={cowImg}
         alt="cow"
         style={{
           position: 'absolute',

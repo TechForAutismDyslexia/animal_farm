@@ -2,52 +2,25 @@ import React, { useContext, useState, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import './style.css';
 import { TimerContext } from '../components/TimerContext';
+import horseImg from '../images/horse2.webp';
+import gooseImg from '../images/goose.webp';
+import pigImg from '../images/pig.webp';
+import soundImg from '../images/sound.webp';
 
 function Page6() {
   const {  getElapsedTime } = useContext(TimerContext); 
   const [successAchieved, setSuccessAchieved] = useState(false);
   const [messageVisible, setMessageVisible] = useState(false);
   const [trialCount, setTrialCount] = useState(0);
+
   const pixiContainerRef = useRef(null);
   const dragItemRef = useRef(null);
   const offsetRef = useRef({ x: 0, y: 0 });
 
   const showSuccessMessage = () => {
     setMessageVisible(true);
-    
-    
-      showButtons();
-    
   };
 
-  const showButtons = () => {
-    const buttonContainer = document.createElement('div');
-    buttonContainer.style.position = 'absolute';
-    buttonContainer.style.left = '50%';
-    buttonContainer.style.bottom = '10%';
-    buttonContainer.style.transform = 'translateX(-50%)';
-    buttonContainer.style.display = 'flex';
-    buttonContainer.style.gap = '20px';
-
-    const buttonPrev = document.createElement('button');
-    buttonPrev.innerText = 'Replay';
-    buttonPrev.style.cursor = 'pointer';
-    buttonPrev.style.padding = '10px 20px';
-    buttonPrev.style.fontSize = '1.5rem';
-    buttonPrev.addEventListener('click', onButtonPrevClick);
-
-    const buttonNext = document.createElement('button');
-    buttonNext.innerText = 'Next';
-    buttonNext.style.cursor = 'pointer';
-    buttonNext.style.padding = '10px 20px';
-    buttonNext.style.fontSize = '1.5rem';
-    buttonNext.addEventListener('click', onButtonNextClick);
-
-    buttonContainer.appendChild(buttonPrev);
-    buttonContainer.appendChild(buttonNext);
-    
-    document.body.appendChild(buttonContainer);
-  };
 
   const throwConfetti = () => {
     confetti({
@@ -55,14 +28,6 @@ function Page6() {
       spread: 70,
       origin: { y: 0.6 },
     });
-  };
-
-  const onButtonNextClick = () => {
-    window.location.href = '/page7';
-  };
-
-  const onButtonPrevClick = () => {
-    window.location.reload();
   };
 
   const onMouseDown = (event, id) => {
@@ -144,6 +109,10 @@ function Page6() {
         setSuccessAchieved(true);
         showSuccessMessage();
         throwConfetti();
+        localStorage.setItem('Page6TrialCount', trialCount.toString());
+        setTimeout(() => {
+          window.location.href = '/games/animal_farm/page7';
+        }, 2000);
       } else {
         setTrialCount(trialCount + 1);
       }
@@ -219,7 +188,7 @@ function Page6() {
      }} 
      onClick={() => readOutLoud("The goose stood between the pig and the horse.")}>
 
-      <img src="/images/sound.webp" alt="sound" width={'50px'}/>
+      <img src={soundImg} alt="sound" width={'50px'}/>
      </span>
       <p className='text'>
         The goose stood between the pig and the horse.
@@ -227,7 +196,7 @@ function Page6() {
 
       <img
         id="horse"
-        src="/images/horse2.webp"
+        src={horseImg}
         alt="Horse"
         style={{
           position: 'absolute',
@@ -242,7 +211,7 @@ function Page6() {
       />
       <img
         id="goose"
-        src="/images/goose.webp"
+        src={gooseImg}
         alt="goose"
         style={{
           position: 'absolute',
@@ -257,7 +226,7 @@ function Page6() {
       />
       <img
         id="pig"
-        src="/images/pig.webp"
+        src={pigImg}
         alt="pig"
         style={{
           position: 'absolute',

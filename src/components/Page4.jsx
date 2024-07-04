@@ -2,51 +2,23 @@ import React, { useContext, useState, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import './style.css';
 import { TimerContext } from '../components/TimerContext';
+import pigImg from '../images/pig.webp';
+import lambImg from '../images/lamb.webp';
+import soundImg from '../images/sound.webp';
 
 function Page4() {
   const {  getElapsedTime } = useContext(TimerContext); 
   const [successAchieved, setSuccessAchieved] = useState(false);
   const [messageVisible, setMessageVisible] = useState(false);
   const [trialCount, setTrialCount] = useState(0);
+
   const pixiContainerRef = useRef(null);
   const dragItemRef = useRef(null);
   const offsetRef = useRef({ x: 0, y: 0 });
 
   const showSuccessMessage = () => {
     setMessageVisible(true);
-    
-    
-      showButtons();
-    
-  };
-
-  const showButtons = () => {
-    const buttonContainer = document.createElement('div');
-    buttonContainer.style.position = 'absolute';
-    buttonContainer.style.left = '50%';
-    buttonContainer.style.bottom = '10%';
-    buttonContainer.style.transform = 'translateX(-50%)';
-    buttonContainer.style.display = 'flex';
-    buttonContainer.style.gap = '20px';
-
-    const buttonPrev = document.createElement('button');
-    buttonPrev.innerText = 'Replay';
-    buttonPrev.style.cursor = 'pointer';
-    buttonPrev.style.padding = '10px 20px';
-    buttonPrev.style.fontSize = '1.5rem';
-    buttonPrev.addEventListener('click', onButtonPrevClick);
-
-    const buttonNext = document.createElement('button');
-    buttonNext.innerText = 'Next';
-    buttonNext.style.cursor = 'pointer';
-    buttonNext.style.padding = '10px 20px';
-    buttonNext.style.fontSize = '1.5rem';
-    buttonNext.addEventListener('click', onButtonNextClick);
-
-    buttonContainer.appendChild(buttonPrev);
-    buttonContainer.appendChild(buttonNext);
-    
-    document.body.appendChild(buttonContainer);
+   
   };
 
   const throwConfetti = () => {
@@ -55,14 +27,6 @@ function Page4() {
       spread: 70,
       origin: { y: 0.6 },
     });
-  };
-
-  const onButtonNextClick = () => {
-    window.location.href = '/page5';
-  };
-
-  const onButtonPrevClick = () => {
-    window.location.reload();
   };
 
   const onMouseDown = (event, id) => {
@@ -148,6 +112,10 @@ function Page4() {
         setSuccessAchieved(true);
         showSuccessMessage();
         throwConfetti();
+        localStorage.setItem('Page4TrialCount', trialCount.toString());
+        setTimeout(() => {
+          window.location.href = '/games/animal_farm/page5';
+        }, 2000);
       } else {
         setTrialCount(trialCount + 1);
       }
@@ -221,7 +189,7 @@ function Page4() {
      }} 
      onClick={() => readOutLoud("The pig stood to one side of the lamb.")}>
 
-      <img src="/images/sound.webp" alt="sound" width={'50px'}/>
+      <img src={soundImg} alt="sound" width={'50px'}/>
      </span>
       <p className='text'>
         The pig stood to one side of the lamb.
@@ -229,7 +197,7 @@ function Page4() {
 
       <img
         id="pig"
-        src="/images/pig.webp"
+        src={pigImg}  
         alt="Pig"
         style={{
           position: 'absolute',
@@ -244,7 +212,7 @@ function Page4() {
       />
       <img
         id="lamb"
-        src="/images/lamb.webp"
+        src={lambImg}
         alt="lamb"
         style={{
           position: 'absolute',

@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from 'react';
 import confetti from 'canvas-confetti';
 import { useNavigate } from 'react-router-dom';
 import { TimerContext } from '../components/TimerContext';
+import starImg from '../images/star.webp';
 
 const Last = () => {
   const { getElapsedTime } = useContext(TimerContext);
@@ -32,6 +33,13 @@ const Last = () => {
     };
   }, []);
 
+  const getTotalTrials = () => {
+    let totalTrials = 0;
+    for (let i = 1; i <= 8; i++) {
+      totalTrials += parseInt(localStorage.getItem(`Page${i}TrialCount`) || '0');
+    }
+    return totalTrials;
+  };
   // Function to navigate to Page21
 //   const goToPage21 = () => {
 //     navigate('/Page21');
@@ -68,24 +76,38 @@ const Last = () => {
             width: 'auto',
             height: 'auto',
           }}
-          src="/images/star.webp"
+          src={starImg}
           alt="Star"
         />
       </div>
-      <button
-        style={{
-          position: 'absolute',
-          bottom: '100px',
-          fontSize: '1.5rem',
-          color: '#000',
-          backgroundColor: '#fff',
-          padding: '10px',
-          borderRadius: '5px',
-          boxShadow: '0px 0px 10px rgba(0,0,0,0.1)',
-        }}
-      >
-        Time Taken- {minutes}:{seconds} 
-      </button>
+      <div 
+  style={{
+    position: 'fixed',
+    bottom: '0',
+    right: '0',
+    fontSize: '2rem',
+    fontWeight: 'bold',
+    color: '#000',
+    padding: '10px',
+    zIndex: '999',
+  }}
+>
+Time Taken- {minutes}:{seconds} 
+</div>
+      <div className="trial"
+  style={{
+    position: 'fixed',
+    bottom: '0',
+    left: '0',
+    fontSize: '2rem',
+    fontWeight: 'bold',
+    color: '#000',
+    padding: '10px',
+    zIndex: '999',
+  }}
+>
+  Total Trials: {getTotalTrials()}
+</div>
      
       
       <button
