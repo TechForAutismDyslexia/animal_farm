@@ -9,7 +9,7 @@ const Last = () => {
   const elapsedTime = getElapsedTime();
   const navigate = useNavigate();
 
-  // Calculate minutes and seconds
+  
   const minutes = Math.floor(elapsedTime / 60);
   const seconds = elapsedTime % 60;
 
@@ -64,7 +64,7 @@ const Last = () => {
     };
 
     throwConfetti();
-    sendGameData(); // Call sendGameData function
+    sendGameData(); 
 
   }, [sendGameData]);
 
@@ -72,16 +72,18 @@ const Last = () => {
     document.body.style.overflow = 'hidden';
 
     return () => {
-      document.body.style.overflow = ''; // Revert back to default on unmount
+      document.body.style.overflow = ''; 
     };
   }, []);
 
   
-  // Function to navigate to Page21
-//   const goToPage21 = () => {
-//     navigate('/Page21');
-//   };
-  const goToPage1 = () => {
+  
+  const goTohome = () => {
+    window.location.href = "https://joywithlearning.com/games";
+  };
+
+
+  const goToPage21 = () => {
     navigate('/Page21');
   };
   return (
@@ -103,7 +105,7 @@ const Last = () => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          height: 'calc(100vh - 200px)', // Adjust to accommodate title, button, and timer
+          height: 'calc(100vh - 200px)', 
         }}
       >
         <img
@@ -146,12 +148,21 @@ Time Taken- {minutes}:{seconds}
   Total Trials: {getTotalTrials()}
 </div>
      
-      
-      <button
-        onClick={goToPage1}
-      >
-        Replay Level
-      </button>
+
+      <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
+        <button
+          onClick={goToPage21}
+        >
+          Replay
+        </button>
+       
+        <button
+          onClick={goTohome}
+        >
+          Go to Home
+        </button>
+        
+      </div>
       
     </div>
     

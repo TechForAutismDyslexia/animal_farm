@@ -16,7 +16,7 @@ const First = () => {
   return (
     <div 
       className="First" 
-      // style={{ backgroundImage: `url(${process.env.PUBLIC_URL}front.png)` }}
+      
     >
       <div className="title-container">
         <h1 className="title">Animal Farm</h1>

@@ -10,7 +10,7 @@ const Modal = ({ isOpen, onClose }) => {
     }
   }, [isOpen]);
 
-  // Cleanup function to stop speech synthesis when modal is closed
+  
   useEffect(() => {
     return () => {
       window.speechSynthesis.cancel();
@@ -27,24 +27,45 @@ const Modal = ({ isOpen, onClose }) => {
         <p>There will be images of two or more animals.</p>
         <p>Place the animals next to each other according to the sentences given.</p>
         <p>Click the "Understood" button below to start playing.</p>
+        
+        <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
+
+        <a href="https://joywithlearning.com/games" className="understood-button" onClick={onClose}>Go to Home</a>
         <Link to="/Page1" className="understood-button" onClick={onClose}>Understood</Link>
+        </div>
+        
       </div>
     </div>
   );
 };
 
 const readOutLoud = (text) => {
+  
   const speech = new SpeechSynthesisUtterance();
   speech.text = text;
-  speech.volume = 1; // Volume: 0 to 1
-  speech.rate = 0.7; // Rate: 0.1 to 10
-  speech.pitch = 1; // Pitch: 0 to 2
-  window.speechSynthesis.speak(speech);
+  speech.volume = 1; 
+  speech.rate = 0.9; 
+  speech.pitch = 1.3; 
+
+  
+  const setVoice = () => {
+    const voices = window.speechSynthesis.getVoices();
+    const rishiVoice = voices.find(voice => voice.name === 'Rishi' && voice.lang === 'en-IN');
+    if (rishiVoice) {
+      speech.voice = rishiVoice;
+    } else {
+      console.warn('Rishi voice not found');
+    }
+    window.speechSynthesis.speak(speech);
+  };
+
+  if (window.speechSynthesis.getVoices().length) {
+    
+    setVoice();
+  } else {
+    
+    window.speechSynthesis.onvoiceschanged = setVoice;
+  }
 };
-window.speechSynthesis.onvoiceschanged = () => {
-  const voices = window.speechSynthesis.getVoices();
-  voices.forEach(voice => {
-    console.log(`${voice.name} (${voice.lang})`);
-  });
-};
+
 export default Modal;
